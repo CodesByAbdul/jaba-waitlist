@@ -22,7 +22,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center text-gray-400">
                 <Phone className="h-4 w-4 mr-2" />
-                <span>+234 xxx xxx xxxx</span>
+                <span>+234 811 265 6046</span>
               </div>
               <div className="flex items-center text-gray-400">
                 <MapPin className="h-4 w-4 mr-2" />
@@ -53,7 +53,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Jaba. All rights reserved. Proudly African. 🌍</p>
+          <p>&copy; 2025 Jaba. All rights reserved. Proudly African. 🌍</p>
         </div>
       </div>
     </footer>

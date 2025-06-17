@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const WhatsAppCommunity = () => {
   const handleJoinWhatsApp = () => {
-    // Replace with your actual WhatsApp group link
-    window.open('https://chat.whatsapp.com/your-group-link', '_blank');
+    window.open('https://chat.whatsapp.com/FPfrBM6Jeb9CfhsHeN0Wii', '_blank');
   };
 
   return (

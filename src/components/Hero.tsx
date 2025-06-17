@@ -50,7 +50,7 @@ const Hero = ({ onFormSelect }: HeroProps) => {
               Be the first to know when we launch!
             </h2>
             <p className="text-gray-600 mb-6">
-              Join our waitlist to get early access and exclusive benefits.
+              Join our wait-list to get early access and exclusive benefits.
             </p>
             <div className="flex flex-col gap-3">
               <button

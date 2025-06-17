@@ -9,7 +9,93 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      farmers: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          farm_size: string | null
+          primary_crops: string
+          farming_experience: string | null
+          additional_info: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          farm_size?: string | null
+          primary_crops: string
+          farming_experience?: string | null
+          additional_info?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string
+          location?: string
+          farm_size?: string | null
+          primary_crops?: string
+          farming_experience?: string | null
+          additional_info?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      buyers: {
+        Row: {
+          id: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          business_type: string | null
+          preferred_products: string[] | null
+          dietary_preferences: string | null
+          delivery_preference: string | null
+          additional_info: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          email: string
+          phone: string
+          location: string
+          business_type?: string | null
+          preferred_products?: string[] | null
+          dietary_preferences?: string | null
+          delivery_preference?: string | null
+          additional_info?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          email?: string
+          phone?: string
+          location?: string
+          business_type?: string | null
+          preferred_products?: string[] | null
+          dietary_preferences?: string | null
+          delivery_preference?: string | null
+          additional_info?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

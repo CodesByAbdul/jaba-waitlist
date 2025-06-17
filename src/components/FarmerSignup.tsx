@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Sprout, MapPin, Phone, Mail, ArrowLeft } from 'lucide-react';
+import { Sprout, MapPin, Phone, Mail, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { TablesInsert } from '@/integrations/supabase/types.ts';
 
 interface FarmerSignupProps {
   onBack: () => void;
@@ -24,29 +26,80 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
     additionalInfo: ''
   });
   
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // This will be connected to Supabase once integration is set up
-    console.log('Farmer signup data:', formData);
-    
-    toast({
-      title: "Thank you for joining!",
-      description: "We'll contact you soon with more details about Jaba.",
-    });
-    
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      location: '',
-      farmSize: '',
-      primaryCrops: '',
-      farmingExperience: '',
-      additionalInfo: ''
-    });
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for Supabase (convert camelCase to snake_case)
+      const farmerData: TablesInsert<'farmers'> = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        farm_size: formData.farmSize || null,
+        primary_crops: formData.primaryCrops,
+        farming_experience: formData.farmingExperience || null,
+        additional_info: formData.additionalInfo || null,
+      };
+
+      const { data, error } = await supabase
+        .from('farmers')
+        .insert([farmerData])
+        .select();
+
+      if (error) {
+        console.error('Error inserting farmer data:', error);
+        
+        // Handle specific error cases
+        if (error.code === '23505') { // Unique violation
+          toast({
+            title: "Email already registered",
+            description: "This email address is already registered. Please use a different email.",
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Registration failed",
+            description: "Something went wrong. Please try again.",
+            variant: "destructive"
+          });
+        }
+        return;
+      }
+
+      console.log('Farmer registered successfully:', data);
+      
+      toast({
+        title: "Thank you for joining!",
+        description: "We'll contact you soon with more details about Jaba.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        location: '',
+        farmSize: '',
+        primaryCrops: '',
+        farmingExperience: '',
+        additionalInfo: ''
+      });
+      
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Registration failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -61,6 +114,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
             <button
               onClick={onBack}
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+              disabled={isSubmitting}
             >
               <ArrowLeft className="h-4 w-4" />
               Back to selection
@@ -90,6 +144,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                       value={formData.name}
                       onChange={(e) => handleChange('name', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-4"
                       placeholder="Enter your full name"
                     />
@@ -106,6 +161,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                       value={formData.email}
                       onChange={(e) => handleChange('email', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="your@email.com"
                     />
@@ -124,6 +180,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                       value={formData.phone}
                       onChange={(e) => handleChange('phone', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="+234 xxx xxx xxxx"
                     />
@@ -140,6 +197,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                       value={formData.location}
                       onChange={(e) => handleChange('location', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="City, State"
                     />
@@ -150,7 +208,11 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="farm-size">Farm Size</Label>
-                  <Select onValueChange={(value) => handleChange('farmSize', value)}>
+                  <Select 
+                    value={formData.farmSize}
+                    onValueChange={(value) => handleChange('farmSize', value)}
+                    disabled={isSubmitting}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select farm size" />
                     </SelectTrigger>
@@ -164,7 +226,11 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="farming-experience">Years of Experience</Label>
-                  <Select onValueChange={(value) => handleChange('farmingExperience', value)}>
+                  <Select 
+                    value={formData.farmingExperience}
+                    onValueChange={(value) => handleChange('farmingExperience', value)}
+                    disabled={isSubmitting}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select experience" />
                     </SelectTrigger>
@@ -186,6 +252,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                   value={formData.primaryCrops}
                   onChange={(e) => handleChange('primaryCrops', e.target.value)}
                   required
+                  disabled={isSubmitting}
                   placeholder="e.g., Tomatoes, Yams, Cassava, Plantain"
                 />
               </div>
@@ -196,6 +263,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                   id="additional-info"
                   value={formData.additionalInfo}
                   onChange={(e) => handleChange('additionalInfo', e.target.value)}
+                  disabled={isSubmitting}
                   placeholder="Tell us more about your farm or any questions you have..."
                   rows={3}
                 />
@@ -203,9 +271,17 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
               
               <Button
                 type="submit"
-                className="w-full green-gradient hover:opacity-90 text-white py-3 text-lg font-medium transition-opacity duration-200"
+                disabled={isSubmitting}
+                className="w-full green-gradient hover:opacity-90 text-white py-3 text-lg font-medium transition-opacity duration-200 disabled:opacity-50"
               >
-                Join Jaba as a Farmer
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    Registering...
+                  </>
+                ) : (
+                  'Join Jaba as a Farmer'
+                )}
               </Button>
             </form>
           </CardContent>

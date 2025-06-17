@@ -2,10 +2,51 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
-const SUPABASE_URL = "https://hyatnuhwilxwwhlyhrbo.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5YXRudWh3aWx4d3dobHlocmJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAxNDk0MzksImV4cCI6MjA2NTcyNTQzOX0._2v7sWFaDXLtuPz3pPkADvaDHbdcCeh6AJLagTxX17E";
-
-// Import the supabase client like this:
-// import { supabase } from "@/integrations/supabase/client";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabasePublishableKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+export const insertFarmer = async (farmerData: Database['public']['Tables']['farmers']['Insert']) => {
+  return await supabase
+    .from('farmers')
+    .insert([farmerData])
+    .select()
+}
+
+export const insertBuyer = async (buyerData: Database['public']['Tables']['buyers']['Insert']) => {
+  return await supabase
+    .from('buyers')
+    .insert([buyerData])
+    .select()
+}
+
+export const getFarmers = async () => {
+  return await supabase
+    .from('farmers')
+    .select('*')
+    .order('created_at', { ascending: false })
+}
+
+export const getBuyers = async () => {
+  return await supabase
+    .from('buyers')
+    .select('*')
+    .order('created_at', { ascending: false })
+}
+
+export const getFarmersByLocation = async (location: string) => {
+  return await supabase
+    .from('farmers')
+    .select('*')
+    .ilike('location', `%${location}%`)
+    .order('created_at', { ascending: false })
+}
+
+export const getBuyersByLocation = async (location: string) => {
+  return await supabase
+    .from('buyers')
+    .select('*')
+    .ilike('location', `%${location}%`)
+    .order('created_at', { ascending: false })
+}

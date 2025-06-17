@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ShoppingCart, MapPin, Phone, Mail, Heart, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, MapPin, Phone, Mail, Heart, ArrowLeft, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { TablesInsert } from '@/integrations/supabase/types.ts';
 
 interface BuyerSignupProps {
   onBack: () => void;
@@ -21,38 +22,92 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
     phone: '',
     location: '',
     businessType: '',
-    preferredProducts: [],
+    preferredProducts: [] as string[],
     dietaryPreferences: '',
     deliveryPreference: '',
     additionalInfo: ''
   });
   
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const productOptions = [
     'Vegetables', 'Fruits', 'Grains', 'Tubers', 'Herbs & Spices', 'Dairy', 'Poultry', 'Fish'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Buyer signup data:', formData);
-    
-    toast({
-      title: "Welcome to Jaba!",
-      description: "We'll notify you as soon as we launch in your area.",
-    });
-    
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      location: '',
-      businessType: '',
-      preferredProducts: [],
-      dietaryPreferences: '',
-      deliveryPreference: '',
-      additionalInfo: ''
-    });
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for Supabase (convert camelCase to snake_case)
+      const buyerData: TablesInsert<'buyers'> = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        location: formData.location,
+        business_type: formData.businessType || null,
+        preferred_products: formData.preferredProducts.length > 0 ? formData.preferredProducts : null,
+        dietary_preferences: formData.dietaryPreferences || null,
+        delivery_preference: formData.deliveryPreference || null,
+        additional_info: formData.additionalInfo || null,
+      };
+
+      const { data, error } = await supabase
+        .from('buyers')
+        .insert([buyerData])
+        .select();
+
+      if (error) {
+        console.error('Error inserting buyer data:', error);
+        
+        // Handle specific error cases
+        if (error.code === '23505') { // Unique violation
+          toast({
+            title: "Email already registered",
+            description: "This email address is already registered. Please use a different email.",
+            variant: "destructive"
+          });
+        } else {
+          toast({
+            title: "Registration failed",
+            description: "Something went wrong. Please try again.",
+            variant: "destructive"
+          });
+        }
+        return;
+      }
+
+      console.log('Buyer registered successfully:', data);
+      
+      toast({
+        title: "Welcome to Jaba!",
+        description: "We'll notify you as soon as we launch in your area.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        location: '',
+        businessType: '',
+        preferredProducts: [],
+        dietaryPreferences: '',
+        deliveryPreference: '',
+        additionalInfo: ''
+      });
+      
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Registration failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (field: string, value: string) => {
@@ -76,6 +131,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
             <button
               onClick={onBack}
               className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 transition-colors"
+              disabled={isSubmitting}
             >
               <ArrowLeft className="h-4 w-4" />
               Back to selection
@@ -105,6 +161,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       value={formData.name}
                       onChange={(e) => handleChange('name', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-4"
                       placeholder="Enter your full name"
                     />
@@ -121,6 +178,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       value={formData.email}
                       onChange={(e) => handleChange('email', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="your@email.com"
                     />
@@ -139,6 +197,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       value={formData.phone}
                       onChange={(e) => handleChange('phone', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="+234 xxx xxx xxxx"
                     />
@@ -155,6 +214,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       value={formData.location}
                       onChange={(e) => handleChange('location', e.target.value)}
                       required
+                      disabled={isSubmitting}
                       className="pl-10"
                       placeholder="City, State"
                     />
@@ -165,11 +225,16 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="business-type">Business Type</Label>
-                  <Select onValueChange={(value) => handleChange('businessType', value)}>
+                  <Select 
+                    value={formData.businessType}
+                    onValueChange={(value) => handleChange('businessType', value)}
+                    disabled={isSubmitting}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="individual">Household</SelectItem>
                       <SelectItem value="restaurant">Restaurant/Hotel</SelectItem>
                       <SelectItem value="grocery-store">Grocery Store</SelectItem>
                       <SelectItem value="supermarket">Supermarket/Chain</SelectItem>
@@ -177,16 +242,17 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       <SelectItem value="wholesaler">Wholesaler</SelectItem>
                       <SelectItem value="distributor">Distributor</SelectItem>
                       <SelectItem value="catering">Catering Service</SelectItem>
-                      <SelectItem value="individual">Individual Consumer</SelectItem>
-                      <SelectItem value="cooperative">Buying Cooperative</SelectItem>
-                      <SelectItem value="export">Export Company</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div className="space-y-2">
                   <Label htmlFor="delivery-preference">Delivery Preference</Label>
-                  <Select onValueChange={(value) => handleChange('deliveryPreference', value)}>
+                  <Select 
+                    value={formData.deliveryPreference}
+                    onValueChange={(value) => handleChange('deliveryPreference', value)}
+                    disabled={isSubmitting}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select preference" />
                     </SelectTrigger>
@@ -209,6 +275,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                         id={`product-${product}`}
                         checked={formData.preferredProducts.includes(product)}
                         onCheckedChange={() => handleProductToggle(product)}
+                        disabled={isSubmitting}
                       />
                       <Label
                         htmlFor={`product-${product}`}
@@ -228,6 +295,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                   type="text"
                   value={formData.dietaryPreferences}
                   onChange={(e) => handleChange('dietaryPreferences', e.target.value)}
+                  disabled={isSubmitting}
                   placeholder="e.g., Vegetarian, Organic only, Gluten-free"
                 />
               </div>
@@ -238,6 +306,7 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                   id="buyer-additional-info"
                   value={formData.additionalInfo}
                   onChange={(e) => handleChange('additionalInfo', e.target.value)}
+                  disabled={isSubmitting}
                   placeholder="Any specific requirements or questions you have..."
                   rows={3}
                 />
@@ -245,10 +314,20 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
               
               <Button
                 type="submit"
-                className="w-full green-gradient hover:opacity-90 text-white py-3 text-lg font-medium transition-opacity duration-200"
+                disabled={isSubmitting}
+                className="w-full green-gradient hover:opacity-90 text-white py-3 text-lg font-medium transition-opacity duration-200 disabled:opacity-50"
               >
-                <Heart className="h-5 w-5 mr-2" />
-                Join Jaba as a Buyer
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                    Registering...
+                  </>
+                ) : (
+                  <>
+                    <Heart className="h-5 w-5 mr-2" />
+                    Join Jaba as a Buyer
+                  </>
+                )}
               </Button>
             </form>
           </CardContent>
