@@ -2,7 +2,11 @@
 import React from 'react';
 import { Sprout, Users, Truck } from 'lucide-react';
 
-const Hero = () => {
+interface HeroProps {
+  onFormSelect: (formType: 'farmer' | 'buyer') => void;
+}
+
+const Hero = ({ onFormSelect }: HeroProps) => {
   return (
     <section className="hero-gradient py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
@@ -21,7 +25,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Connecting African farmers directly to consumers. Fresh, local, and sustainable food at your fingertips.
+            Connecting African farmers directly to buyers. Fresh, local, and sustainable food at your fingertips.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -49,18 +53,18 @@ const Hero = () => {
               Join our waitlist to get early access and exclusive benefits.
             </p>
             <div className="flex flex-col gap-3">
-              <a
-                href="#farmer-signup"
+              <button
+                onClick={() => onFormSelect('farmer')}
                 className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
                 I'm a Farmer
-              </a>
-              <a
-                href="#consumer-signup"
+              </button>
+              <button
+                onClick={() => onFormSelect('buyer')}
                 className="border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
               >
-                I'm a Consumer
-              </a>
+                I'm a Buyer
+              </button>
             </div>
           </div>
         </div>

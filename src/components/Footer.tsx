@@ -13,7 +13,7 @@ const Footer = () => {
               <span className="text-2xl font-bold">Jaba</span>
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
-              Connecting African farmers directly to consumers for fresh, sustainable, and affordable food.
+              Connecting African farmers directly to buyers for fresh, sustainable, and affordable food.
             </p>
             <div className="space-y-2">
               <div className="flex items-center text-gray-400">
@@ -42,7 +42,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">For Consumers</h3>
+            <h3 className="text-lg font-semibold mb-4">For Buyers</h3>
             <ul className="space-y-2 text-gray-400">
               <li>Fresh Produce</li>
               <li>Local Sourcing</li>
