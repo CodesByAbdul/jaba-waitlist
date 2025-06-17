@@ -170,11 +170,16 @@ const BuyerSignup = ({ onBack }: BuyerSignupProps) => {
                       <SelectValue placeholder="Select business type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="restaurant">Restaurant</SelectItem>
-                      <SelectItem value="retailer">Retailer</SelectItem>
-                      <SelectItem value="individual">Individual</SelectItem>
+                      <SelectItem value="restaurant">Restaurant/Hotel</SelectItem>
+                      <SelectItem value="grocery-store">Grocery Store</SelectItem>
+                      <SelectItem value="supermarket">Supermarket/Chain</SelectItem>
+                      <SelectItem value="food-processor">Food Processor</SelectItem>
+                      <SelectItem value="wholesaler">Wholesaler</SelectItem>
                       <SelectItem value="distributor">Distributor</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="catering">Catering Service</SelectItem>
+                      <SelectItem value="individual">Individual Consumer</SelectItem>
+                      <SelectItem value="cooperative">Buying Cooperative</SelectItem>
+                      <SelectItem value="export">Export Company</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

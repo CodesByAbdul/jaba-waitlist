@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, Users, Bell, Gift } from 'lucide-react';
+import { MessageCircle, Users, TrendingUp, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const WhatsAppCommunity = () => {
@@ -20,35 +20,35 @@ const WhatsAppCommunity = () => {
           </div>
           
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            Join Our WhatsApp Community
+            Join Our Farmers' WhatsApp Community
           </h2>
           
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Connect with fellow farmers and consumers. Get updates, share experiences, and be part of the Jaba family.
+            Connect with fellow farmers across Africa. Share knowledge, learn best practices, and grow your farming business together.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
               <Users className="h-8 w-8 text-white mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">Connect</h3>
+              <h3 className="text-lg font-semibold text-white mb-2">Network & Learn</h3>
               <p className="text-white/80 text-sm">
-                Network with farmers and consumers across Africa
+                Connect with experienced farmers and share agricultural tips
               </p>
             </div>
             
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-              <Bell className="h-8 w-8 text-white mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">Stay Updated</h3>
-              <p className="text-white/80 text-sm">
-                Get the latest news and launch announcements
+              <TrendingUp className="h-8 w-8 text-white mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">Market Insights</h3>
+              <p className="text-white/80 text-small">
+                Get real-time market prices and demand updates
               </p>
             </div>
             
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-              <Gift className="h-8 w-8 text-white mx-auto mb-3" />
-              <h3 className="text-lg font-semibold text-white mb-2">Exclusive Benefits</h3>
+              <BookOpen className="h-8 w-8 text-white mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-white mb-2">Farming Resources</h3>
               <p className="text-white/80 text-sm">
-                Access to special offers and early features
+                Access exclusive farming guides and early platform features
               </p>
             </div>
           </div>
@@ -58,11 +58,11 @@ const WhatsAppCommunity = () => {
             className="bg-white text-primary hover:bg-gray-100 px-8 py-3 text-lg font-semibold transition-colors duration-200"
           >
             <MessageCircle className="h-5 w-5 mr-2" />
-            Join WhatsApp Community
+            Join Farmers' Community
           </Button>
           
           <p className="text-white/70 text-sm mt-4">
-            Click to join our WhatsApp group and connect with the community
+            Exclusive to registered farmers - Join thousands of farmers already in our community
           </p>
         </div>
       </div>
