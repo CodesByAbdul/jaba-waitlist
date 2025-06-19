@@ -26,7 +26,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center text-gray-400">
                 <MapPin className="h-4 w-4 mr-2" />
-                <span>Lagos, Nigeria</span>
+                <span>Ilorin, Nigeria</span>
               </div>
             </div>
           </div>
@@ -47,7 +47,7 @@ const Footer = () => {
               <li>Fresh Produce</li>
               <li>Local Sourcing</li>
               <li>Fast Delivery</li>
-              <li>Quality Guarantee</li>
+              <li>Quality Guaranteed</li>
             </ul>
           </div>
         </div>
