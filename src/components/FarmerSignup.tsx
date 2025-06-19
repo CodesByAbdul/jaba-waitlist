@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -21,7 +22,8 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
     phone: '',
     location: '',
     farmSize: '',
-    primaryCrops: '',
+    primaryProducts: '',
+    farmingType: '',
     farmingExperience: '',
     additionalInfo: ''
   });
@@ -41,7 +43,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
         phone: formData.phone,
         location: formData.location,
         farm_size: formData.farmSize || null,
-        primary_crops: formData.primaryCrops,
+        primary_crops: formData.primaryProducts,
         farming_experience: formData.farmingExperience || null,
         additional_info: formData.additionalInfo || null,
       };
@@ -71,7 +73,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
         return;
       }
 
-      console.log('Farmer registered successfully:', data);
+      console.log('Producer registered successfully:', data);
       
       toast({
         title: "Thank you for joining!",
@@ -85,7 +87,8 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
         phone: '',
         location: '',
         farmSize: '',
-        primaryCrops: '',
+        primaryProducts: '',
+        farmingType: '',
         farmingExperience: '',
         additionalInfo: ''
       });
@@ -125,10 +128,10 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
               </div>
             </div>
             <CardTitle className="text-3xl font-bold text-gray-900">
-              Join as a Farmer
+              Join as a Producer
             </CardTitle>
             <p className="text-gray-600 mt-2">
-              Connect directly with buyers and grow your business
+              Connect directly with buyers and grow your agricultural business
             </p>
           </CardHeader>
           
@@ -136,10 +139,10 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="farmer-name">Full Name *</Label>
+                  <Label htmlFor="producer-name">Full Name *</Label>
                   <div className="relative">
                     <Input
-                      id="farmer-name"
+                      id="producer-name"
                       type="text"
                       value={formData.name}
                       onChange={(e) => handleChange('name', e.target.value)}
@@ -152,11 +155,11 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="farmer-email">Email Address *</Label>
+                  <Label htmlFor="producer-email">Email Address *</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
-                      id="farmer-email"
+                      id="producer-email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleChange('email', e.target.value)}
@@ -171,11 +174,11 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="farmer-phone">Phone Number *</Label>
+                  <Label htmlFor="producer-phone">Phone Number *</Label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
-                      id="farmer-phone"
+                      id="producer-phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleChange('phone', e.target.value)}
@@ -188,11 +191,11 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="farmer-location">Farm Location *</Label>
+                  <Label htmlFor="producer-location">Location *</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input
-                      id="farmer-location"
+                      id="producer-location"
                       type="text"
                       value={formData.location}
                       onChange={(e) => handleChange('location', e.target.value)}
@@ -205,21 +208,46 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                 </div>
               </div>
               
+              <div className="space-y-2">
+                <Label htmlFor="farming-type">Type of Production *</Label>
+                <Select 
+                  value={formData.farmingType}
+                  onValueChange={(value) => handleChange('farmingType', value)}
+                  disabled={isSubmitting}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select your production type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="crop-farming">Crop Farming</SelectItem>
+                    <SelectItem value="livestock">Livestock (Cattle, Goats, Sheep)</SelectItem>
+                    <SelectItem value="poultry">Poultry (Chickens, Ducks, Turkey)</SelectItem>
+                    <SelectItem value="aquaculture">Fish Farming / Aquaculture</SelectItem>
+                    <SelectItem value="dairy">Dairy Production</SelectItem>
+                    <SelectItem value="mixed-farming">Mixed Farming (Crops + Animals)</SelectItem>
+                    <SelectItem value="processed-foods">Processed Foods</SelectItem>
+                    <SelectItem value="value-added">Value-Added Products</SelectItem>
+                    <SelectItem value="other">Other Agricultural Production</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="farm-size">Farm Size</Label>
+                  <Label htmlFor="farm-size">Farm/Operation Size</Label>
                   <Select 
                     value={formData.farmSize}
                     onValueChange={(value) => handleChange('farmSize', value)}
                     disabled={isSubmitting}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select farm size" />
+                      <SelectValue placeholder="Select operation size" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="small">Small (0-2 acres)</SelectItem>
-                      <SelectItem value="medium">Medium (2-10 acres)</SelectItem>
-                      <SelectItem value="large">Large (10+ acres)</SelectItem>
+                      <SelectItem value="small">Small Scale (0-2 acres / Small herd)</SelectItem>
+                      <SelectItem value="medium">Medium Scale (2-10 acres / Medium herd)</SelectItem>
+                      <SelectItem value="large">Large Scale (10+ acres / Large herd)</SelectItem>
+                      <SelectItem value="commercial">Commercial Operation</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -245,15 +273,15 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="primary-crops">Primary Crops *</Label>
+                <Label htmlFor="primary-products">Primary Products *</Label>
                 <Input
-                  id="primary-crops"
+                  id="primary-products"
                   type="text"
-                  value={formData.primaryCrops}
-                  onChange={(e) => handleChange('primaryCrops', e.target.value)}
+                  value={formData.primaryProducts}
+                  onChange={(e) => handleChange('primaryProducts', e.target.value)}
                   required
                   disabled={isSubmitting}
-                  placeholder="e.g., Tomatoes, Yams, Cassava, Plantain"
+                  placeholder="e.g., Tomatoes, Rice, Cattle, Chicken, Fish, Processed Yam Flour"
                 />
               </div>
               
@@ -264,7 +292,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                   value={formData.additionalInfo}
                   onChange={(e) => handleChange('additionalInfo', e.target.value)}
                   disabled={isSubmitting}
-                  placeholder="Tell us more about your farm or any questions you have..."
+                  placeholder="Tell us more about your operation, production capacity, or any questions you have..."
                   rows={3}
                 />
               </div>
@@ -280,7 +308,7 @@ const FarmerSignup = ({ onBack }: FarmerSignupProps) => {
                     Registering...
                   </>
                 ) : (
-                  'Join Jaba as a Farmer'
+                  'Join Jaba as a Producer'
                 )}
               </Button>
             </form>

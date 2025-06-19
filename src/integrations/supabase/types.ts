@@ -9,90 +9,90 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      farmers: {
+      buyers: {
         Row: {
-          id: string
-          name: string
-          email: string
-          phone: string
-          location: string
-          farm_size: string | null
-          primary_crops: string
-          farming_experience: string | null
           additional_info: string | null
-          created_at: string
-          updated_at: string
+          business_type: string | null
+          created_at: string | null
+          delivery_preference: string | null
+          dietary_preferences: string | null
+          email: string
+          id: string
+          location: string
+          name: string
+          phone: string
+          preferred_products: string[] | null
+          updated_at: string | null
         }
         Insert: {
-          id?: string
-          name: string
-          email: string
-          phone: string
-          location: string
-          farm_size?: string | null
-          primary_crops: string
-          farming_experience?: string | null
           additional_info?: string | null
-          created_at?: string
-          updated_at?: string
+          business_type?: string | null
+          created_at?: string | null
+          delivery_preference?: string | null
+          dietary_preferences?: string | null
+          email: string
+          id?: string
+          location: string
+          name: string
+          phone: string
+          preferred_products?: string[] | null
+          updated_at?: string | null
         }
         Update: {
-          id?: string
-          name?: string
-          email?: string
-          phone?: string
-          location?: string
-          farm_size?: string | null
-          primary_crops?: string
-          farming_experience?: string | null
           additional_info?: string | null
-          created_at?: string
-          updated_at?: string
+          business_type?: string | null
+          created_at?: string | null
+          delivery_preference?: string | null
+          dietary_preferences?: string | null
+          email?: string
+          id?: string
+          location?: string
+          name?: string
+          phone?: string
+          preferred_products?: string[] | null
+          updated_at?: string | null
         }
         Relationships: []
       }
-      buyers: {
+      farmers: {
         Row: {
-          id: string
-          name: string
-          email: string
-          phone: string
-          location: string
-          business_type: string | null
-          preferred_products: string[] | null
-          dietary_preferences: string | null
-          delivery_preference: string | null
           additional_info: string | null
-          created_at: string
-          updated_at: string
+          created_at: string | null
+          email: string
+          farm_size: string | null
+          farming_experience: string | null
+          id: string
+          location: string
+          name: string
+          phone: string
+          primary_crops: string
+          updated_at: string | null
         }
         Insert: {
-          id?: string
-          name: string
-          email: string
-          phone: string
-          location: string
-          business_type?: string | null
-          preferred_products?: string[] | null
-          dietary_preferences?: string | null
-          delivery_preference?: string | null
           additional_info?: string | null
-          created_at?: string
-          updated_at?: string
+          created_at?: string | null
+          email: string
+          farm_size?: string | null
+          farming_experience?: string | null
+          id?: string
+          location: string
+          name: string
+          phone: string
+          primary_crops: string
+          updated_at?: string | null
         }
         Update: {
-          id?: string
-          name?: string
-          email?: string
-          phone?: string
-          location?: string
-          business_type?: string | null
-          preferred_products?: string[] | null
-          dietary_preferences?: string | null
-          delivery_preference?: string | null
           additional_info?: string | null
-          created_at?: string
-          updated_at?: string
+          created_at?: string | null
+          email?: string
+          farm_size?: string | null
+          farming_experience?: string | null
+          id?: string
+          location?: string
+          name?: string
+          phone?: string
+          primary_crops?: string
+          updated_at?: string | null
         }
         Relationships: []
       }
