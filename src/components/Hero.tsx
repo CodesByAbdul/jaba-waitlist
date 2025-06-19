@@ -13,7 +13,7 @@ const Hero = ({ onFormSelect }: HeroProps) => {
         <div className="text-center animate-fade-in-up">
           <div className="flex justify-center mb-6">
             <div className="bg-primary/10 p-4 rounded-full">
-              <Sprout className="h-12 w-12 text-primary" />
+              <img src="/logo-leaf.svg" className="h-12 w-12 text-primary" />
             </div>
           </div>
           
