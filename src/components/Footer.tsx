@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
               <img src="/jaba-symbol.png" className="h-24 w-24" />
-              <span className="text-2xl font-bold -ml-4">Jàba</span>
+              <span className="text-2xl font-bold -ml-8">Jàba</span>
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
               Connecting African farmers directly to buyers for fresh, sustainable, and affordable food.
