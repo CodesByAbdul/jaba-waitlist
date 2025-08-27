@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Sprout, Mail, Phone, MapPin } from 'lucide-react';
+import { Sprout, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Youtube, } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -9,16 +9,30 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center mb-4">
-              <img src="/logo-leaf.svg" className="h-8 w-8 text-primary mr-2" />
-              <span className="text-2xl font-bold">Jaba</span>
+              <img src="/jaba-symbol.png" className="h-8 w-8 text-primary mr-2" />
+              <span className="text-2xl font-bold">Jàba</span>
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
               Connecting African farmers directly to buyers for fresh, sustainable, and affordable food.
             </p>
+            <div className="flex space-x-4">
+              <a href="https://www.facebook.com/profile.php?id=61579138947736" className="text-green-300 hover:text-white transition-colors" target='_blank' rel="noopener noreferrer">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="https://x.com/jaba_market" className="text-green-300 hover:text-white transition-colors" target='_blank' rel="noopener noreferrer">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href="https://www.instagram.com/jaba_market" className="text-green-300 hover:text-white transition-colors" target='_blank' rel="noopener noreferrer">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="https://www.tiktok.com/@jaba_market" className="text-green-300 hover:text-white transition-colors" target='_blank' rel="noopener noreferrer">
+                <Youtube className="h-5 w-5" />
+              </a>
+            </div>
             <div className="space-y-2">
               <div className="flex items-center text-gray-400">
                 <Mail className="h-4 w-4 mr-2" />
-                <span>hello@jaba.com</span>
+                <span>mail.jabamarket@gmail.com</span>
               </div>
               <div className="flex items-center text-gray-400">
                 <Phone className="h-4 w-4 mr-2" />
@@ -26,7 +40,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center text-gray-400">
                 <MapPin className="h-4 w-4 mr-2" />
-                <span>Ilorin, Nigeria</span>
+                <span>Lagos, Nigeria</span>
               </div>
             </div>
           </div>
