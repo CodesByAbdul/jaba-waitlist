@@ -13,7 +13,7 @@ const Hero = ({ onFormSelect }: HeroProps) => {
         <div className="text-center animate-fade-in-up">
           <div className="flex justify-center mb-6">
             <div className="bg-primary/10 p-4 rounded-full">
-              <img src="/jaba-symbol.png" className="h-12 w-12 text-primary" />
+              <img src="/jaba-symbol.png" className="w-full h-full" />
             </div>
           </div>
           
